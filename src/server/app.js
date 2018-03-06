@@ -19,7 +19,7 @@ app.get('/meeseeks', (req, res) => {
 
 app.post('/meeseeks', (req, res) => {
   console.log(req.body)
-  fs.readFile(path.join(__dirname, './templates/deployment.yaml'), (err, data) => {
+  fs.readFile(path.join(__dirname, './templates/deployment.yml'), (err, data) => {
     if (err) {
       console.error(err)
     } else {
