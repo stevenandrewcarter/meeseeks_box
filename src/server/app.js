@@ -1,44 +1,46 @@
-const express = require('express')
-const yaml = require('js-yaml')
-const Mustache = require('mustache')
-const fs = require('fs')
-const path = require('path')
-const app = express()
-const bodyParser = require('body-parser')
-app.use(bodyParser.json())
-const Api = require('kubernetes-client')
-// Create an instance of the client using the local kubernetes configuration
-const ext = new Api.Extensions(Api.config.fromKubeconfig())
+var express = require('express');
+var path = require('path');
+var favicon = require('serve-favicon');
+var logger = require('morgan');
+var cookieParser = require('cookie-parser');
+var bodyParser = require('body-parser');
 
-app.get('/meeseeks', (req, res) => {
-  console.log("Getting all of the Mister Meeseeks!")
-  ext.namespaces('default').deployments.get((err, result) => {
-    res.send(JSON.stringify(err || result, null, 2))
-  })
-})
+var index = require('./routes/index');
+var users = require('./routes/users');
 
-app.post('/meeseeks', (req, res) => {
-  console.log(req.body)
-  fs.readFile(path.join(__dirname, './templates/deployment.yml'), (err, data) => {
-    if (err) {
-      console.error(err)
-    } else {
-      let rendered = Mustache.render(data.toString(), req.body)
-      let result = yaml.safeLoad(rendered)
-      ext.namespaces('default').deployments.post({body: result}, (err, value) => {
-        res.send(JSON.stringify(err || value, null, 2))
-      })    
-    }
-  })
-})
+var app = express();
 
-app.delete('/meeseeks/:id', (req, res) => {
-  ext.namespaces('default').deployments.delete({
-    name: req.params.id,
-    body: {propagationPolicy: 'Foreground'}
-  }, (err, value) => {
-    res.send(JSON.stringify(err || value, null, 2))
-  })
-})
+// view engine setup
+app.set('views', path.join(__dirname, 'views'));
+app.set('view engine', 'jade');
 
-app.listen(3000, () => console.log('Example app listening on port 3000!'))
+// uncomment after placing your favicon in /public
+//app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
+app.use(logger('dev'));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(cookieParser());
+app.use(express.static(path.join(__dirname, 'public')));
+
+app.use('/', index);
+app.use('/users', users);
+
+// catch 404 and forward to error handler
+app.use(function(req, res, next) {
+  var err = new Error('Not Found');
+  err.status = 404;
+  next(err);
+});
+
+// error handler
+app.use(function(err, req, res, next) {
+  // set locals, only providing error in development
+  res.locals.message = err.message;
+  res.locals.error = req.app.get('env') === 'development' ? err : {};
+
+  // render the error page
+  res.status(err.status || 500);
+  res.render('error');
+});
+
+module.exports = app;
