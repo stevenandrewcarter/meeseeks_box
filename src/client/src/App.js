@@ -1,21 +1,25 @@
 import React, { Component } from 'react';
+import Button from 'material-ui/Button';
 import './App.css';
 
 class App extends Component {
-  state = {users: []}
+  state = {meeseeks: []}
 
   componentDidMount() {
-    fetch('/users')
+    fetch('/meeseeks')
       .then(res => res.json())
-      .then(users => this.setState({ users }));
+      .then(meeseeks => this.setState({ meeseeks }));
   }
 
   render() {
     return (
       <div className="App">
-        <h1>Users</h1>
-        {this.state.users.map(user =>
-          <div key={user.id}>{user.username}</div>
+        <Button variant="raised" color="primary">
+          Hello World
+        </Button>
+        <h1>meeseeks</h1>
+        {this.state.meeseeks.map(meeseek =>
+          <div key={meeseek.id}>{meeseek.username}</div>
         )}
       </div>
     );

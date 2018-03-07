@@ -8,6 +8,7 @@ const ext = new Api.Extensions(Api.config.fromKubeconfig())
 router.get('/', function (req, res, next) {
     console.log("Getting all of the Mister Meeseeks!")
     ext.namespaces('default').deployments.get((err, result) => {
+        console.log("Mister Meeseeks: ", result, err)
         res.send(JSON.stringify(err || result, null, 2))
     })
 })
@@ -27,7 +28,7 @@ router.post('/', (req, res, next) => {
     })
 })
 
-app.delete('/:id', (req, res, next) => {
+router.delete('/:id', (req, res, next) => {
     ext.namespaces('default').deployments.delete({
         name: req.params.id,
         body: { propagationPolicy: 'Foreground' }
