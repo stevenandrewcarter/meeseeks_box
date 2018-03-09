@@ -1,48 +1,44 @@
-var express = require('express');
-var path = require('path');
-var favicon = require('serve-favicon');
-var logger = require('morgan');
-var cookieParser = require('cookie-parser');
-var bodyParser = require('body-parser');
+const express = require('express');
+const parseurl = require('parseurl');
+const bodyParser = require('body-parser');
+const path = require('path');
+const app = express();
 
-var index = require('./routes/index');
-var users = require('./routes/users');
-var meeseeks = require('./routes/meeseeks')
+const Api = require('kubernetes-client')
+// Create an instance of the client using the local kubernetes configuration
+const ext = new Api.Extensions(Api.config.fromKubeconfig())
 
-var app = express();
+/* GET meeseek listings listing. */
+app.get('/', function (req, res, next) {
+    console.log("Getting all of the Mister Meeseeks!")
+    ext.namespaces('default').deployments.get((err, result) => {
+        console.log("Mister Meeseeks: ", result, err)
+        res.send(JSON.stringify(err || result, null, 2))
+    })
+})
 
-// view engine setup
-app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'jade');
+app.post('/', (req, res, next) => {
+    console.log(req.body)
+    fs.readFile(path.join(__dirname, './templates/deployment.yml'), (err, data) => {
+        if (err) {
+            console.error(err)
+        } else {
+            let rendered = Mustache.render(data.toString(), req.body)
+            let result = yaml.safeLoad(rendered)
+            ext.namespaces('default').deployments.post({ body: result }, (err, value) => {
+                res.send(JSON.stringify(err || value, null, 2))
+            })
+        }
+    })
+})
 
-// uncomment after placing your favicon in /public
-//app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
-app.use(logger('dev'));
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
+app.delete('/:id', (req, res, next) => {
+    ext.namespaces('default').deployments.delete({
+        name: req.params.id,
+        body: { propagationPolicy: 'Foreground' }
+    }, (err, value) => {
+        res.send(JSON.stringify(err || value, null, 2))
+    })
+})
 
-app.use('/', index);
-app.use('/users', users);
-app.use('/meeseeks', meeseeks)
-
-// catch 404 and forward to error handler
-app.use(function(req, res, next) {
-  var err = new Error('Not Found');
-  err.status = 404;
-  next(err);
-});
-
-// error handler
-app.use(function(err, req, res, next) {
-  // set locals, only providing error in development
-  res.locals.message = err.message;
-  res.locals.error = req.app.get('env') === 'development' ? err : {};
-
-  // render the error page
-  res.status(err.status || 500);
-  res.render('error');
-});
-
-module.exports = app;
+app.listen(process.env.PORT || 3000);
