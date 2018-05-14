@@ -1,7 +1,12 @@
 const express = require('express');
-const parseurl = require('parseurl');
-const bodyParser = require('body-parser');
 const path = require('path');
+const favicon = require('serve-favicon');
+const logger = require('morgan');
+const cookieParser = require('cookie-parser');
+const bodyParser = require('body-parser');
+
+const meeseeks = require('./routes/meeseeks');
+
 const app = express();
 
 const Api = require('kubernetes-client')

@@ -1,17 +1,27 @@
 {
-  "name": "meeseeks-api",
-  "version": "0.0.1",
+  "name": "server-backend",
+  "version": "0.0.0",
   "private": true,
   "scripts": {
+<<<<<<< HEAD
     "start": "PORT=3001 node app.js"
+=======
+    "start": "set PORT=3000 && node ./bin/www"
+>>>>>>> b0dd337b6c302f6f23fbda39e8318913e58cc2d7
   },
   "dependencies": {
     "body-parser": "~1.18.2",
     "cookie-parser": "~1.4.3",
     "debug": "~3.1.0",
-    "express": "~4.16.2",
+    "express": "~4.16.3",
+    "jade": "~1.11.0",
     "js-yaml": "^3.11.0",
-    "kubernetes-client": "^4.0.0",
-    "mustache": "^2.3.0"
+    "kubernetes-client": "^5.2.0",
+    "morgan": "~1.9.0",
+    "mustache": "^2.3.0",
+    "serve-favicon": "~2.5.0"
+  },
+  "devDependencies": {
+    "@types/express": "^4.11.1"
   }
 }
