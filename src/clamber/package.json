@@ -7,6 +7,6 @@
   },
   "dependencies": {
     "kubernetes-client": "^5.2.0",
-    "mongodb": "^3.0.7"
+    "mongodb": "^3.0.8"
   }
 }
