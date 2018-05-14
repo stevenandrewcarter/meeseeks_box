@@ -8,8 +8,7 @@ const Api = require('kubernetes-client')
 // Create an instance of the client using the local kubernetes configuration
 const ext = new Api.Extensions(Api.config.fromKubeconfig())
 
-/* GET meeseek listings listing. */
-app.get('/', function (req, res, next) {
+app.get('/meeseeks', function (req, res) {
     console.log("Getting all of the Mister Meeseeks!")
     ext.namespaces('default').deployments.get((err, result) => {
         console.log("Mister Meeseeks: ", result, err)
@@ -17,7 +16,7 @@ app.get('/', function (req, res, next) {
     })
 })
 
-app.post('/', (req, res, next) => {
+app.post('/meeseeks', (req, res) => {
     console.log(req.body)
     fs.readFile(path.join(__dirname, './templates/deployment.yml'), (err, data) => {
         if (err) {
@@ -32,7 +31,7 @@ app.post('/', (req, res, next) => {
     })
 })
 
-app.delete('/:id', (req, res, next) => {
+app.delete('/meeseeks/:id', (req, res) => {
     ext.namespaces('default').deployments.delete({
         name: req.params.id,
         body: { propagationPolicy: 'Foreground' }
@@ -41,4 +40,5 @@ app.delete('/:id', (req, res, next) => {
     })
 })
 
+console.log('Starting server on', process.env.PORT || 3000)
 app.listen(process.env.PORT || 3000);
