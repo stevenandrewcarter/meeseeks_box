@@ -1,9 +1,0 @@
-{
-  "name": "meeseeks_box_full_stack",
-  "version": "1.0.0",
-  "scripts": {
-    "server": "cd src && cd server && npm start",
-  },
-  "devDependencies": {
-  }
-}
