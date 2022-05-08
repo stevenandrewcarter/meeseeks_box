@@ -1,0 +1,15 @@
+<h1>Function#Index</h1>
+<%= form_for(function, {action: apiV1FunctionPath(), method: "POST"}) { %>
+<div class="row">
+    <div class="col-md-12">
+        <%= f.InputTag("Item") %>
+        <button class="btn btn-success" role="submit">Save</button>
+        <a href="<%= apiV1FunctionPath() %>" class="btn btn-warning" data-confirm="Are you sure?">Cancel</a>
+    </div>
+</div>
+<% } %>
+<ul>
+    <%= for (i) in items { %>
+        <li><%= i.Item %></li>
+    <% } %>
+</ul>
