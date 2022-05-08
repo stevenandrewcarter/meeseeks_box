@@ -41,11 +41,24 @@ func FunctionAdd(c buffalo.Context) error {
 	if err != nil {
 		return c.Render(http.StatusBadRequest, r.JSON(err))
 	}
-	return c.Redirect(http.StatusTemporaryRedirect, "apiV1FunctionPath()")
+	return c.Redirect(http.StatusFound, "apiV1FunctionPath()")
 	// return c.Render(http.StatusOK, r.JSON(function))
 }
 
 // FunctionRun default implementation.
 func FunctionRun(c buffalo.Context) error {
 	return c.Render(http.StatusOK, r.HTML("function/run.plush.html"))
+}
+
+// FunctionDelete default implementation.
+func FunctionDelete(c buffalo.Context) error {
+	id := c.Param("id")
+	function := models.Function{}
+	if err := models.DB.Find(&function, id); err != nil {
+		return c.Render(http.StatusBadRequest, r.JSON(err))
+	}
+	if err := models.DB.Destroy(&function); err != nil {
+		return c.Render(http.StatusBadRequest, r.JSON(err))
+	}
+	return c.Redirect(http.StatusFound, "apiV1FunctionPath()")
 }

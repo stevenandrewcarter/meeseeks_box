@@ -68,6 +68,7 @@ func App() *buffalo.App {
 		g := app.Group("/api/v1")
 		g.GET("/function", FunctionIndex)
 		g.GET("/function/{id}", FunctionShow)
+		g.GET("/function/{id}/delete", FunctionDelete)
 		g.GET("/function/{id}/run", FunctionRun)
 		g.POST("/function", FunctionAdd)
 		app.ServeFiles("/", http.FS(public.FS())) // serve files from the public directory
