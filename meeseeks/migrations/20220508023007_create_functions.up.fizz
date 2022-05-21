@@ -1,5 +1,0 @@
-create_table("functions") {
-	t.Column("id", "uuid", {primary: true})
-	t.Column("item", "string", {"size": 100})
-	t.Timestamps()
-}
