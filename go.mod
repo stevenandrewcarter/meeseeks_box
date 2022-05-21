@@ -10,8 +10,12 @@ require (
 	github.com/gobuffalo/mw-forcessl v0.0.0-20220514125302-be60179938a4
 	github.com/gobuffalo/mw-i18n/v2 v2.0.1
 	github.com/gobuffalo/mw-paramlogger v1.0.0
+	github.com/gobuffalo/nulls v0.4.1
 	github.com/gobuffalo/pop/v6 v6.0.3
 	github.com/gobuffalo/suite/v4 v4.0.2
+	github.com/gobuffalo/validate/v3 v3.3.1
+	github.com/gobuffalo/x v0.0.0-20190224155809-6bb134105960
+	github.com/gofrs/uuid v4.2.0+incompatible
 	github.com/markbates/grift v1.5.0
 	github.com/unrolled/secure v1.10.0
 )
@@ -35,11 +39,8 @@ require (
 	github.com/gobuffalo/httptest v1.5.1 // indirect
 	github.com/gobuffalo/logger v1.0.6 // indirect
 	github.com/gobuffalo/meta v0.3.1 // indirect
-	github.com/gobuffalo/nulls v0.4.1 // indirect
 	github.com/gobuffalo/plush/v4 v4.1.11 // indirect
 	github.com/gobuffalo/tags/v3 v3.1.2 // indirect
-	github.com/gobuffalo/validate/v3 v3.3.1 // indirect
-	github.com/gofrs/uuid v4.2.0+incompatible // indirect
 	github.com/gorilla/css v1.0.0 // indirect
 	github.com/gorilla/handlers v1.5.1 // indirect
 	github.com/gorilla/mux v1.8.0 // indirect

@@ -1,0 +1,6 @@
+- id: "function.created.success"
+  translation: "Function was successfully created."
+- id: "function.updated.success"
+  translation: "Function was successfully updated."
+- id: "function.destroyed.success"
+  translation: "Function was successfully destroyed."

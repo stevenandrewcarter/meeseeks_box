@@ -1,0 +1,9 @@
+create_table("functions") {
+	t.Column("id", "uuid", {primary: true})
+	t.Column("name", "string", {})
+	t.Column("language", "string", {})
+	t.Column("image", "string", {})
+	t.Column("source", "text", {})
+	t.Column("bundle", "text", {null: true})
+	t.Timestamps()
+}
