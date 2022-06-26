@@ -19,5 +19,6 @@ module.exports = {
     'react',
   ],
   'rules': {
+    'max-len': ['error', {'code': 120}],
   },
 };
