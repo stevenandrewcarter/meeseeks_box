@@ -1,6 +1,0 @@
-POST http://localhost:3000/function
-Content-Type: application/json
-
-{
-  "item": "test"
-}
