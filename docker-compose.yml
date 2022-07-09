@@ -1,0 +1,16 @@
+---
+version: '3.9'
+
+services:
+  mongodb:
+    image: mongo
+    ports:
+      - 27017:27017
+    volumes:
+      - mongodb:/data/db
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=meeseeks
+      - MONGO_INITDB_ROOT_PASSWORD=S3cret
+
+volumes:
+  mongodb:
