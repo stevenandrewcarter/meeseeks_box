@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import {Container, Table} from 'react-bootstrap';
+import {Badge, Container, Table} from 'react-bootstrap';
 import moment from 'moment';
 
 /**
@@ -43,7 +43,11 @@ function Containers() {
                   <td>{container.Names.join(',')}</td>
                   <td>{container.State}</td>
                   <td>{container.Status}</td>
-                  <td>{Object.entries(container.Labels).map((k, v) => k)}</td>
+                  <td>
+                    {Object.entries(container.Labels).map(([k, v]) => {
+                      return (<Badge pill key={v} bg="secondary">{k}: {v}</Badge>);
+                    })}
+                  </td>
                 </tr>
               );
             })

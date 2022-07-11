@@ -14,6 +14,8 @@ app.use(express.json());
 app.use(require('./routes/record'));
 app.use(require('./routes/containers'));
 app.use(require('./routes/images'));
+app.use(require('./routes/networks'));
+app.use(require('./routes/volumes'));
 
 // Global Error handling
 app.use(function(err, _req, res) {

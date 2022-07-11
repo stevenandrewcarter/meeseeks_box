@@ -5,7 +5,7 @@ const containersRoutes = express.Router();
 const docker = new Docker();
 
 containersRoutes.route('/containers').get(async function(_req, res) {
-  docker.listContainers((err, containers) => {
+  docker.listContainers({all: true}, (err, containers) => {
     if (err) {
       res.status(400).json(err);
     } else {
