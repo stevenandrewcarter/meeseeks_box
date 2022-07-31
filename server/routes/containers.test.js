@@ -1,7 +1,7 @@
 const request = require('supertest');
 const app = require('../app');
 
-describe('a test', () => {
+describe('containers', () => {
   it('should get all containers', async () => {
     const response = await request(app).get('/containers');
     expect(response.statusCode).toBe(200);
