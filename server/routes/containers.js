@@ -1,17 +1,26 @@
 const express = require('express');
 const Docker = require('dockerode');
 
-const containersRoutes = express.Router();
+const router = express.Router();
 const docker = new Docker();
 
-containersRoutes.route('/containers').get(async function(_req, res) {
-  docker.listContainers({all: true}, (err, containers) => {
-    if (err) {
-      res.status(400).json(err);
-    } else {
-      res.json(containers);
-    }
-  });
+router.get('/', async (_req, res) => {
+  try {
+    const containers = await docker.listContainers({all: true});
+    res.json(containers);
+  } catch (err) {
+    res.status(400).json(err);
+  }
 });
 
-module.exports = containersRoutes;
+router.post('/', async (_req, res) => {
+  try {
+    const container = await docker.createContainer({Image: 'alpine', Cmd: ['/bin/sh'], name: 'alpine-test'});
+    const cid = await container.start();
+    res.json(cid);
+  } catch (err) {
+    res.status(400).json(err);
+  }
+});
+
+module.exports = router;

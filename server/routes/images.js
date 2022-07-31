@@ -5,13 +5,12 @@ const imagesRoutes = express.Router();
 const docker = new Docker();
 
 imagesRoutes.route('/images').get(async function(_req, res) {
-  docker.listImages((err, images) => {
-    if (err) {
-      res.status(400).json(err);
-    } else {
-      res.json(images);
-    }
-  });
+  try {
+    const images = await docker.listImages();
+    res.json(images);
+  } catch (err) {
+    res.status(400).json(err);
+  }
 });
 
 module.exports = imagesRoutes;
