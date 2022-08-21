@@ -4,7 +4,7 @@ const Docker = require('dockerode');
 const routes = express.Router();
 const docker = new Docker();
 
-routes.route('/networks').get(async function(_req, res) {
+routes.get('/', async (_req, res) => {
   try {
     const networks = await docker.listNetworks();
     res.json(networks);

@@ -1,10 +1,10 @@
 const express = require('express');
 const Docker = require('dockerode');
 
-const imagesRoutes = express.Router();
+const routes = express.Router();
 const docker = new Docker();
 
-imagesRoutes.route('/images').get(async function(_req, res) {
+routes.get('/', async (_req, res) => {
   try {
     const images = await docker.listImages();
     res.json(images);
@@ -13,4 +13,4 @@ imagesRoutes.route('/images').get(async function(_req, res) {
   }
 });
 
-module.exports = imagesRoutes;
+module.exports = routes;

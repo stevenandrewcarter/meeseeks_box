@@ -16,8 +16,20 @@ router.get('/', async (_req, res) => {
 router.post('/', async (_req, res) => {
   try {
     const container = await docker.createContainer({Image: 'alpine', Cmd: ['/bin/sh'], name: 'alpine-test'});
-    const cid = await container.start();
-    res.json(cid);
+    await container.start();
+    res.json(container);
+  } catch (err) {
+    res.status(400).json(err);
+  }
+});
+
+router.delete('/:containerId', async (req, res) => {
+  try {
+    const {containerId} = req.params;
+    const container = docker.getContainer(containerId);
+    console.log(container);
+    // await container.stop();
+    console.log(await container.remove());
   } catch (err) {
     res.status(400).json(err);
   }
