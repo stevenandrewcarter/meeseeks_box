@@ -1,5 +1,5 @@
-const request = require('supertest');
-const app = require('../app');
+import {agent as request} from 'supertest';
+import app from '../app';
 
 describe('networks', () => {
   it('get all networks', async () => {

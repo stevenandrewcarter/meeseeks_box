@@ -1,10 +1,11 @@
-const express = require('express');
-const Docker = require('dockerode');
+import {Router, Request, Response} from 'express';
+import {Logger} from '../utils/logger';
+import Docker from 'dockerode';
 
-const router = express.Router();
+export const containersRoute = Router();
 const docker = new Docker();
 
-router.get('/', async (_req, res) => {
+containersRoute.get('/containers', async (_req: Request, res: Response) => {
   try {
     const containers = await docker.listContainers({all: true});
     res.json(containers);
@@ -13,26 +14,24 @@ router.get('/', async (_req, res) => {
   }
 });
 
-router.post('/', async (_req, res) => {
+containersRoute.post('/containers', async (_req: Request, res: Response) => {
   try {
     const container = await docker.createContainer({Image: 'alpine', Cmd: ['/bin/sh'], name: 'alpine-test'});
     await container.start();
-    res.json(container);
+    res.status(201).json(container);
   } catch (err) {
     res.status(400).json(err);
   }
 });
 
-router.delete('/:containerId', async (req, res) => {
+containersRoute.delete('/containers/:containerId', async (req: Request, res: Response) => {
   try {
     const {containerId} = req.params;
     const container = docker.getContainer(containerId);
-    console.log(container);
+    Logger.debug(container);
     // await container.stop();
-    console.log(await container.remove());
+    await container.remove();
   } catch (err) {
     res.status(400).json(err);
   }
 });
-
-module.exports = router;

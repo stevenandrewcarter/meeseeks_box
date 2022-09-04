@@ -1,5 +1,5 @@
-const request = require('supertest');
-const app = require('../app');
+import {agent as request} from 'supertest';
+import app from '../app';
 
 describe('containers', () => {
   it('should get all containers', async () => {
@@ -12,12 +12,12 @@ describe('containers', () => {
 
     it('should create a new containers', async () => {
       const response = await request(app).post('/containers');
-      expect(response.statusCode).toBe(200);
+      expect(response.statusCode).toBe(201);
       containerId = response.body.id;
     });
 
     afterAll(async () => {
-      console.log(containerId);
+      console.log(`ContainerID: ${containerId}`);
       if (containerId) {
         await request(app).delete(`/containers/${containerId}`);
       }
