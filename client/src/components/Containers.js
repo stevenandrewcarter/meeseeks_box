@@ -10,14 +10,14 @@ function Containers() {
   const [containers, setContainers] = useState([]);
   useEffect(() => {
     fetch('http://localhost:5000/containers')
-        .then((response) => response.json())
-        .then((data) => {
-          console.log(data);
-          setContainers(data);
-        })
-        .catch((err) => {
-          console.log(err.message);
-        });
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data);
+        setContainers(data);
+      })
+      .catch((err) => {
+        console.log(err.message);
+      });
   }, []);
 
   return (

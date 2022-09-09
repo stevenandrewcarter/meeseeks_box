@@ -10,14 +10,14 @@ function Images() {
   const [images, setImages] = useState([]);
   useEffect(() => {
     fetch('http://localhost:5000/images')
-        .then((response) => response.json())
-        .then((data) => {
-          console.log(data);
-          setImages(data);
-        })
-        .catch((err) => {
-          console.log(err.message);
-        });
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data);
+        setImages(data);
+      })
+      .catch((err) => {
+        console.log(err.message);
+      });
   }, []);
 
   return (

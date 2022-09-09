@@ -9,14 +9,14 @@ function Networks() {
   const [networks, setNetworks] = useState([]);
   useEffect(() => {
     fetch('http://localhost:5000/networks')
-        .then((response) => response.json())
-        .then((data) => {
-          console.log(data);
-          setNetworks(data);
-        })
-        .catch((err) => {
-          console.log(err.message);
-        });
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data);
+        setNetworks(data);
+      })
+      .catch((err) => {
+        console.log(err.message);
+      });
   }, []);
 
   return (

@@ -175,7 +175,7 @@ function Functions() {
                         <Form>
                           <Form.Group className="mb-3" controlId="formBasicCheckbox">
                             <Form.Check checked={selectedBoxes.includes(box)} type="checkbox"
-                              onChange={(event) => handleSelectedBoxes(box)} />
+                              onChange={() => handleSelectedBoxes(box)} />
                           </Form.Group>
                         </Form>
                       </td>

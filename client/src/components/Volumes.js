@@ -9,14 +9,14 @@ function Volumes() {
   const [volumes, setVolumes] = useState([]);
   useEffect(() => {
     fetch('http://localhost:5000/volumes')
-        .then((response) => response.json())
-        .then((data) => {
-          console.log(data);
-          setVolumes(data);
-        })
-        .catch((err) => {
-          console.log(err.message);
-        });
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data);
+        setVolumes(data);
+      })
+      .catch((err) => {
+        console.log(err.message);
+      });
   }, []);
   const tdStyle = {
     'white-space': 'nowrap',
