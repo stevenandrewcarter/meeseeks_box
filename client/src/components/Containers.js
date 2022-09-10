@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import {Badge, Container, Table} from 'react-bootstrap';
 import moment from 'moment';
+import {ContainerService} from '../services';
 
 /**
  * Displays the Containers that can be found on the Docker Engine
@@ -9,7 +10,7 @@ import moment from 'moment';
 function Containers() {
   const [containers, setContainers] = useState([]);
   useEffect(() => {
-    fetch('http://localhost:5000/containers')
+    new ContainerService().getAll()
       .then((response) => response.json())
       .then((data) => {
         console.log(data);

@@ -4,10 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon server.js",
+    "start": "nodemon ./src/server.ts",
     "test": "npx jest"
-  },
-  "type": "module",
+  },  
   "author": "",
   "license": "ISC",
   "dependencies": {

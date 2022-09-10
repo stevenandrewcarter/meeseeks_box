@@ -5,9 +5,9 @@
     "server"
   ],
   "scripts": {
-    "dev": "concurrently --kill-others-on-fail \"npm run dev:server\" \"npm run dev:client\"",
-    "dev:client": "cd client && npm start",
-    "dev:server": "cd server && npm start",
+    "start": "concurrently --kill-others-on-fail \"npm run dev:server\" \"npm run dev:client\"",
+    "dev:client": "npm start --workspace=client",
+    "dev:server": "npm start --workspace=server",
     "prepare": "husky install"
   },
   "devDependencies": {
