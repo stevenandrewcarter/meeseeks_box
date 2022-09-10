@@ -9,8 +9,10 @@ import {ContainerService} from '../services';
  */
 function Containers() {
   const [containers, setContainers] = useState([]);
+  const service = new ContainerService();
+
   useEffect(() => {
-    new ContainerService().getAll()
+    service.getAll()
       .then((response) => response.json())
       .then((data) => {
         console.log(data);

@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import {Container, Table} from 'react-bootstrap';
 import moment from 'moment';
+import {ImageService} from '../services';
 
 /**
  * Displays the Images that can be found on the Docker Engine
@@ -8,8 +9,10 @@ import moment from 'moment';
  */
 function Images() {
   const [images, setImages] = useState([]);
+  const service = new ImageService();
+
   useEffect(() => {
-    fetch('http://localhost:5000/images')
+    service.getAll()
       .then((response) => response.json())
       .then((data) => {
         console.log(data);
@@ -35,15 +38,15 @@ function Images() {
         </thead>
         <tbody>
           {
-            images.map((image, i) => {
+            images.map((image) => {
               return (
-                <tr key={i}>
+                <tr key={image.Id}>
                   <td>{image.Id.substring(7, 19)}</td>
                   <td>{moment(new Date(image.Created * 1000)).format('YYYY/MM/DD HH:mm:SS')}</td>
                   <td>{image.RepoTags.join(',')}</td>
                   <td>{(image.Size / (1000 * 1000 * 1000)).toFixed(2)} GB</td>
                   <td>{(image.VirtualSize / (1000 * 1000 * 1000)).toFixed(2)} GB</td>
-                  <td>{image.Labels}</td>
+                  <td>{JSON.stringify(image.Labels)}</td>
                 </tr>
               );
             })

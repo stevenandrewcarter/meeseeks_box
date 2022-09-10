@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import PropTypes from 'prop-types';
 import {
   Badge,
@@ -14,13 +14,14 @@ import {
   Table,
 } from 'react-bootstrap';
 import {Exclamation, Pencil, Play, Plus, Stop, Trash} from 'react-bootstrap-icons';
+import {FunctionService} from '../services';
 
-const Boxes = [
-  {name: 'NodeTestBox', image: 'alpine', language: 'NodeJS', status: 'running'},
-  {name: 'GoTestBox', image: 'alpine', language: 'Go', status: 'stopped'},
-  {name: 'PythonTestBox', image: 'alpine', language: 'Python', status: 'error'},
-  {name: 'NodeFlexBox', image: 'alpine', language: 'NodeJS', status: 'running'},
-];
+// const Boxes = [
+//   {name: 'NodeTestBox', image: 'alpine', language: 'NodeJS', status: 'running'},
+//   {name: 'GoTestBox', image: 'alpine', language: 'Go', status: 'stopped'},
+//   {name: 'PythonTestBox', image: 'alpine', language: 'Python', status: 'error'},
+//   {name: 'NodeFlexBox', image: 'alpine', language: 'NodeJS', status: 'running'},
+// ];
 
 
 const BoxModal = ({show, handleClose, handleSave}) => {
@@ -76,7 +77,21 @@ BoxModal.propTypes = {
  */
 function Functions() {
   const [show, setShow] = useState(false);
-  const [boxes, setBoxes] = useState(Boxes);
+  const [boxes, setBoxes] = useState([]);
+  const service = new FunctionService();
+
+  useEffect(() => {
+    service.getAll()
+      .then((resp) => resp.json())
+      .then((data) => {
+        console.log(data);
+        setBoxes(data);
+      })
+      .catch((err) => {
+        console.log(err.message);
+      });
+  }, []);
+
   const [selectedBoxes, setSelectedBoxes] = useState([]);
   const handleSave = ({name, image, language}) => {
     boxes.push({
@@ -137,17 +152,17 @@ function Functions() {
             <ListGroup className="me-2" horizontal>
               <ListGroup.Item>
                 <Play/> Running <Badge bg="primary">
-                  {Boxes.filter((b) => b.status === 'running').length}
+                  {boxes.filter((b) => b.status === 'running').length}
                 </Badge>
               </ListGroup.Item>
               <ListGroup.Item>
                 <Stop/> Stopped <Badge bg="secondary">
-                  {Boxes.filter((b) => b.status === 'stopped').length}
+                  {boxes.filter((b) => b.status === 'stopped').length}
                 </Badge>
               </ListGroup.Item>
               <ListGroup.Item>
                 <Exclamation/> Error <Badge bg="danger">
-                  {Boxes.filter((b) => b.status === 'error').length}
+                  {boxes.filter((b) => b.status === 'error').length}
                 </Badge>
               </ListGroup.Item>
             </ListGroup>
