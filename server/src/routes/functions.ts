@@ -1,16 +1,23 @@
-import {Router, Request, Response} from 'express';
+import {Router, Request, Response, NextFunction} from 'express';
 import Function from '../models/function';
-import {Logger} from '../utils/logger';
 
 export const functionsRoute = Router();
 
-functionsRoute.get('/functions', async (req: Request, res: Response) => {
+functionsRoute.get('/functions', async (req: Request, res: Response, next: NextFunction) => {
   try {
     const filters = {where: req.query};
     const functions = await Function.findAll(filters);
     res.status(200).json(functions);
   } catch (err) {
-    Logger.error(err);
-    res.status(400).json(err);
+    next(err);
+  }
+});
+
+functionsRoute.post('/functions', async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const result = await Function.create(req.body);
+    res.status(201).json(result);
+  } catch (err) {
+    next(err);
   }
 });

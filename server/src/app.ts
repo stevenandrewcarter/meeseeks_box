@@ -1,13 +1,16 @@
-import express, {Express, Request, Response} from 'express';
+import express, {Express, NextFunction, Request, Response} from 'express';
 import cors from 'cors';
 import {Routes} from './routes';
 import {init} from './models';
 import {Logger} from './utils/logger';
 import morgan from 'morgan';
+import bodyParser from 'body-parser';
 
 init();
 const app: Express = express();
 
+app.use(bodyParser.urlencoded({extended: true}));
+app.use(bodyParser.json());
 app.use(cors());
 app.use(morgan('combined', {
   stream: {
@@ -15,18 +18,12 @@ app.use(morgan('combined', {
   },
 }));
 app.use(express.json());
-// app.use(require('./routes/record'));
-// app.use('/containers', require('./routes/containers'));
-app.use('/', Routes);
+app.use('/api/', Routes);
 
 // Global Error handling
-// app.use((err, _req, res) => {
-//   console.log(err.stack);
-//   res.status(500).send('Something broke!');
-// });
-
-app.get('/', (_req: Request, res: Response) => {
-  res.status(200).send('Hello World!');
+app.use((err: Error, _req: Request, res: Response, _next: NextFunction) => {
+  Logger.error(err);
+  res.status(500).json(err);
 });
 
 export default app;

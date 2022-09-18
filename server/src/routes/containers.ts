@@ -5,22 +5,23 @@ import Docker from 'dockerode';
 export const containersRoute = Router();
 const docker = new Docker();
 
-containersRoute.get('/containers', async (_req: Request, res: Response) => {
+containersRoute.get('/containers', async (_req: Request, res: Response, next) => {
   try {
     const containers = await docker.listContainers({all: true});
     res.json(containers);
   } catch (err) {
-    res.status(400).json(err);
+    next(err);
   }
 });
 
-containersRoute.post('/containers', async (_req: Request, res: Response) => {
+containersRoute.post('/containers', async (_req: Request, res: Response, next) => {
   try {
     const container = await docker.createContainer({Image: 'alpine', Cmd: ['/bin/sh'], name: 'alpine-test'});
     await container.start();
     res.status(201).json(container);
   } catch (err) {
-    res.status(400).json(err);
+    next(err);
+    // res.status(400).json(err);
   }
 });
 
